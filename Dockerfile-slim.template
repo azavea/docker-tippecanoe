@@ -1,0 +1,23 @@
+FROM debian:stable-slim
+
+WORKDIR /usr/local/src
+
+RUN set -ex \
+      && buildDeps=" \
+      build-essential \
+      libsqlite3-dev \
+      libz-dev \
+      wget \
+      " \
+      && deps=" \
+      libsqlite3-0 \
+      " \
+      && apt-get update && apt-get install -y $buildDeps $deps \
+      && wget -qO- https://github.com/mapbox/tippecanoe/archive/%%TIPPECANOE_VERSION%%.tar.gz \
+      | tar xvz -C /usr/local/src \
+      && make -C /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% \
+      && make -C /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% install \
+      && apt-get purge -y --auto-remove $buildDeps \
+      && rm -rf /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% /var/lib/apt/lists/*
+
+ENTRYPOINT [ "/usr/local/bin/tippecanoe" ]

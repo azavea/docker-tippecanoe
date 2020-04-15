@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["1.35.0"]
+        variant: ["slim"]
+    env:
+      DOCKER_BUILDKIT: 1
+      CI: 1
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: ./scripts/cibuild
+        env:
+          TIPPECANOE_VERSION: ${{ matrix.version }}
+          VARIANT: ${{ matrix.variant }}
