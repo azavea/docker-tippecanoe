@@ -1,6 +1,6 @@
 # docker-tippecanoe
 
-[![CircleCI](https://circleci.com/gh/azavea/docker-tippecanoe.svg?style=svg)](https://circleci.com/gh/azavea/docker-tippecanoe)
+![](https://github.com/azavea/docker-tippecanoe/workflows/CI/badge.svg)
 
 This repository contains a collection of templated `Dockerfile` for image variants designed to support the usage of [Tippecanoe](https://github.com/mapbox/tippecanoe).
 
