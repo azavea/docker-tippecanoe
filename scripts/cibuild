@@ -22,7 +22,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             "Dockerfile-$VARIANT.template" >Dockerfile
 
         docker \
-            build -t "quay.io/azavea/tippecanoe:$TIPPECANOE_VERSION-$VARIANT" .
+            build -t "quay.io/azavea/tippecanoe:${TIPPECANOE_VERSION%.*}-$VARIANT" .
 
         scripts/test
 

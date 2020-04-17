@@ -17,10 +17,15 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
       CI: 1
+      TIPPECANOE_VERSION: ${{ matrix.version }}
+      VARIANT: ${{ matrix.variant }}
     steps:
       - uses: actions/checkout@v2
 
       - run: ./scripts/cibuild
+
+      - run: ./scripts/cipublish
+        if: github.ref == 'refs/heads/master'
         env:
-          TIPPECANOE_VERSION: ${{ matrix.version }}
-          VARIANT: ${{ matrix.variant }}
+          QUAY_USER: ${{ secrets.QUAY_USER }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}

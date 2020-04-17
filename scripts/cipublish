@@ -3,14 +3,10 @@
 set -e
 set -u
 
-if [[ -n "${CI}" ]]; then
-    set -x
-fi
-
 function usage() {
     echo -n \
         "Usage: $(basename "$0")
-Test container images built from templates.
+Publish container images built from templates.
 "
 }
 
@@ -19,6 +15,9 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         usage
     else
         docker \
-            run --rm "quay.io/azavea/tippecanoe:${TIPPECANOE_VERSION%.*}-$VARIANT" --version
+            login -u "${QUAY_USER}" -p "${QUAY_PASSWORD}" quay.io
+
+        docker \
+            push "quay.io/azavea/tippecanoe:${TIPPECANOE_VERSION%.*}-$VARIANT"
     fi
 fi
