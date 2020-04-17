@@ -2,14 +2,14 @@
 
 ![](https://github.com/azavea/docker-tippecanoe/workflows/CI/badge.svg)
 
-This repository contains a collection of templated `Dockerfile` for image variants designed to support the usage of [Tippecanoe](https://github.com/mapbox/tippecanoe).
+This repository contains a templated `Dockerfile` designed to support the usage of multiple [Tippecanoe](https://github.com/mapbox/tippecanoe) versions.
 
 ## Usage
 
 ### Template Variables
 
-- `TIPPECANOE_VERSION` - Tippecanoe version
-- `VARIANT` - Base container image variant
+- `TIPPECANOE_VERSION` - Tippecanoe version.
+- `VARIANT` - Base container image variant. Currently supports: `slim`.
 
 ### Testing
 
