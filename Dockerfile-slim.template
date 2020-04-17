@@ -1,23 +1,23 @@
-FROM debian:stable-slim
+FROM debian:stable AS builder
 
 WORKDIR /usr/local/src
 
-RUN set -ex \
-      && buildDeps=" \
+RUN apt-get update && apt-get install -yq \
       build-essential \
       libsqlite3-dev \
       libz-dev \
-      wget \
-      " \
-      && deps=" \
-      libsqlite3-0 \
-      " \
-      && apt-get update && apt-get install -y $buildDeps $deps \
-      && wget -qO- https://github.com/mapbox/tippecanoe/archive/%%TIPPECANOE_VERSION%%.tar.gz \
-      | tar xvz -C /usr/local/src \
-      && make -C /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% \
-      && make -C /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% install \
-      && apt-get purge -y --auto-remove $buildDeps \
-      && rm -rf /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% /var/lib/apt/lists/*
+      wget
+
+RUN wget -qO- https://github.com/mapbox/tippecanoe/archive/%%TIPPECANOE_VERSION%%.tar.gz \
+      | tar xvz -C /usr/local/src
+RUN make -C /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%%
+RUN make -C /usr/local/src/tippecanoe-%%TIPPECANOE_VERSION%% install
+
+FROM debian:stable-slim
+
+RUN apt-get update && apt-get install -yq \
+      libsqlite3-0
+
+COPY --from=builder /usr/local/bin/tippecanoe /usr/local/bin/tippecanoe
 
 ENTRYPOINT [ "/usr/local/bin/tippecanoe" ]
