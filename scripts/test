@@ -19,6 +19,6 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         usage
     else
         docker \
-            run --rm "quay.io/azavea/tippecanoe:$TIPPECANOE_VERSION-$VARIANT" --version
+            run --rm "quay.io/azavea/tippecanoe:${TIPPECANOE_VERSION%.*}-$VARIANT" --version
     fi
 fi
