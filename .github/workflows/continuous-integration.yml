@@ -16,7 +16,6 @@ jobs:
         variant: ["slim"]
     env:
       DOCKER_BUILDKIT: 1
-      CI: 1
       TIPPECANOE_VERSION: ${{ matrix.version }}
       VARIANT: ${{ matrix.variant }}
     steps:
